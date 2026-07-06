@@ -64,10 +64,11 @@ typst watch main.typ main.pdf \
 
 #show: doc => vortex(
   title: [My Article],
+  blind-review: true,
   authors: (
     (
       name: "John Doe",
-      institution: "University",
+      affiliation: "University",
       orcid: "0000-0000-0000-0000",
       email: "john@example.com",
     ),

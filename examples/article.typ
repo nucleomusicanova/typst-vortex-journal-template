@@ -9,7 +9,7 @@
 //│   Creation of new vortex article    │
 //╰─────────────────────────────────────╯
 #show: doc => vortex(
-  // Editor fields
+  // Editor fields (do not CHANGE)
   vortex-number: 1,
   article-first-page-number: 1,
   article-last-page-number: 24,
@@ -18,8 +18,10 @@
   accepted: "00/00/2026",
   available-online: "00/00/2026",
   editor: "Dr Fabio Guilherme Poletto. Dr Felipe de Almeida Ribeiro",
+  // this do not render the authors
+  blind-review: true,
 
-  // Author fields
+  // Author fields (CHANGE)
   title: "Title in the Original Language (Maximum 90 Characters)",
   name: "Name",
   lastname: "Last Name",
@@ -73,8 +75,10 @@
 
 // First paragraph of Vortex use dropcap
 #vortex-dropcap[
-  Citation using latex will be something like this, where I claim that something and use someone for reference @kramer_moment_1978. A second article would be cited as @cont2010[p. 20]. You need to check the `references.bib` clicking in the icon above the search on the sidebar. To Get this code you can use, for example, Zotero `Export Library...`. For citations on text, you can use `#cite(<cont2010>, form: "prose")` where `cont2010` is the key for the citation. For example, following #vortex-cite-text("Cont", <cont2010>) or #vortex-cite-text("Arshia Cont", <cont2010>).
+  #lorem(250)
 ]
+
+Citation using latex will be something like this, where I claim that something and use someone for reference @kramer_moment_1978. A second article would be cited as @cont2010[p. 20]. You need to check the `references.bib` clicking in the icon above the search on the sidebar. To Get this code you can use, for example, Zotero `Export Library...`. For citations on text, you can use `#cite(<cont2010>, form: "prose")` where `cont2010` is the key for the citation. For example, following #vortex-cite-text("Cont", <cont2010>) or #vortex-cite-text("Arshia Cont", <cont2010>).
 
 // after first paragraph, just write, new lines start a new paraphrapg.
 To make footnotes in `Typst` we use `#footnote`#footnote[See #vortex-cite-text("Cont", <cont2010>) for the original paper. #lorem(25)]. For long citations we use `#vortex-long-citation`.
@@ -113,17 +117,20 @@ For tables we use the `#vortex-table` command.
 #vortex-table(
   table(
     columns: 5,
-    [], [Coluna 1], [Coluna 2], [Coluna 3], [Coluna 4],
+    [], [Column 1], [Column 2], [Column 3], [Column 4],
     [_Linha 1_], [abc], [def], [abc], [def],
     [_Linha 2_], [bca], [efd], [bca], [efd],
     [_Linha 3_], [cba], [fed], [cba], [fed],
+    [_Linha 4_], [abc], [def], [abc], [def],
+    [_Linha 5_], [bca], [efd], [bca], [efd],
+    [_Linha 6_], [cba], [fed], [cba], [fed],
   ),
   caption: lorem(20),
   source: [Author (2015, p. 450)],
-  ref: <tab:sample>,
+  ref: <sample>,
 )
 
-To make a reference to a table you can use the @tab:sample. The name must be passed as `ref` to the `vortex-table`.
+To make a reference to a table you can use the @sample. The name must be passed as `ref` to the `vortex-table`.
 
 //╭─────────────────────────────────────╮
 //│             References              │
