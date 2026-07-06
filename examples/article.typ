@@ -1,7 +1,7 @@
 //╭─────────────────────────────────────╮
 //│       Import vortex template        │
 //╰─────────────────────────────────────╯
-#import "../lib.typ": (
+#import "../vortex.typ": (
   vortex, vortex-bibliography, vortex-cite-text, vortex-dropcap, vortex-image, vortex-long-citation, vortex-table,
 )
 
@@ -77,8 +77,7 @@
 ]
 
 // after first paragraph, just write, new lines start a new paraphrapg.
-To make footnotes in `Typst` we use `#footnote`#footnote[See @cont2010 for the original paper. #lorem(25).
-]. For long citations we use `#vortex-long-citation`.
+To make footnotes in `Typst` we use `#footnote`#footnote[See #vortex-cite-text("Cont", <cont2010>) for the original paper. #lorem(25)]. For long citations we use `#vortex-long-citation`.
 
 // for long citation we use #vortex-long-citation
 #vortex-long-citation[

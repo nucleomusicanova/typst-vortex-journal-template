@@ -1,7 +1,7 @@
 [package]
 name = "vortex"
 version = "0.1.0"
-entrypoint = "lib.typ"
+entrypoint = "vortex.typ"
 authors = ["Charles K. Neimog"]
 license = "MIT"
 description = "Official Typst template for Revista Vórtex."

@@ -254,7 +254,12 @@
   keywords: [],
   body,
 ) = {
-  set page(paper: "a4")
+  set page(paper: "a4", margin: (
+    top: 2cm,
+    bottom: 2cm,
+    left: 2.5cm,
+    right: 2.5cm,
+  ))
   set heading(numbering: "1.")
   set text(
     lang: lang,
@@ -296,6 +301,7 @@
       all: true,
     ),
   )
+  set footnote.entry(indent: 0pt)
 
   // header
   set page(
@@ -330,7 +336,7 @@
     Available online: #available-online.
     Editor: #editor.
     Creative Commons CC-BY:
-    #underline(link(license-url)[#license-url])
+    #underline(link(license-url)[#license-url]).
   ]
 
   //────────────────────────────────────
