@@ -20,7 +20,7 @@
   editor: "Dr Fabio Guilherme Poletto. Dr Felipe de Almeida Ribeiro",
 
   // Author fields
-  title: "Título do Trabalho no Idioma Original do Texto com um Máximo de 90 Caracteres",
+  title: "Title in the Original Language (Maximum 90 Characters)",
   name: "Name",
   lastname: "Last Name",
   lang: "en",
