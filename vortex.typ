@@ -4,7 +4,20 @@
 //│               DROPCAP               │
 //╰─────────────────────────────────────╯
 #let vortex-dropcap(body) = {
-  dropcap(height: 3)[#body]
+  block(width: 100%)[
+    #set par(
+      justify: true,
+      leading: 1.5em,
+      spacing: 0cm,
+      first-line-indent: 0pt,
+    )
+    #dropcap(
+      height: 3,
+      gap: 0.25em,
+      hanging-indent: 0pt,
+    )[#body]
+  ]
+  v(1.5em)
 }
 
 //╭─────────────────────────────────────╮
@@ -59,6 +72,30 @@
 #let vortex-image-counter = counter("vortex-image")
 #let vortex-table-counter = counter("vortex-table")
 
+#let vortex-has-content(value) = value != []
+
+#let vortex-labels(lang) = {
+  let is-portuguese = lang == "pt" or lang == "pt-br"
+  let is-spanish = lang == "es" or lang.starts-with("es-")
+  if is-portuguese {
+    (
+      figure-caption: "FIGURA",
+      figure-reference: "Figura",
+      table-caption: "TABELA",
+      table-reference: "Tabela",
+      source: "Fonte",
+    )
+  } else {
+    (
+      figure-caption: "FIGURE",
+      figure-reference: "Figure",
+      table-caption: "TABLE",
+      table-reference: "Table",
+      source: if is-spanish { "Fuente" } else { "Source" },
+    )
+  }
+}
+
 #let vortex-image(
   body,
   caption: [],
@@ -75,17 +112,18 @@
 
   context {
     let lang = vortex-document-lang.get()
-    let is-portuguese = lang == "pt" or lang == "pt-br"
-    let caption-name = if is-portuguese { "FIGURA" } else { "FIGURE" }
-    let source-name = if is-portuguese { "Fonte" } else { "Source" }
+    let labels = vortex-labels(lang)
     let number = vortex-image-counter.get().first() + 1
-    let reference = caption-name + " " + str(number)
+    let caption-reference = labels.figure-caption + " " + str(number)
+    let inline-reference = labels.figure-reference + " " + str(number)
+
+    v(1em)
 
     block(width: 100%, breakable: false)[
       #set par(
         first-line-indent: 0pt,
         justify: false,
-        leading: 0.5em,
+        leading: 0.6em,
       )
 
       #set text(size: 10pt)
@@ -94,17 +132,17 @@
         [
           #metadata((
             kind: "vortex-image",
-            reference: reference,
+            reference: inline-reference,
           )) #ref
         ]
       }
 
       #vortex-image-counter.step()
       #align(center)[
-        #reference – #caption
+        #caption-reference – #caption
       ]
 
-      #v(0em)
+      #v(0.5em)
 
       #align(center)[
         #box(width: width)[
@@ -116,12 +154,14 @@
         ]
       ]
 
-      #v(0em)
+      #v(0.5em)
 
       #align(center)[
-        #source-name: #source
+        #labels.source: #source
       ]
     ]
+
+    v(1em)
   }
 }
 
@@ -138,22 +178,18 @@
 ) = {
   context {
     let lang = vortex-document-lang.get()
-    let is-portuguese = lang == "pt" or lang == "pt-br"
-    let caption-name = if is-portuguese { "TABELA" } else { "TABLE" }
-    let source-name = if is-portuguese { "Fonte" } else { "Source" }
+    let labels = vortex-labels(lang)
     let number = vortex-table-counter.get().first() + 1
-    let reference = caption-name + " " + str(number)
-    let inline-reference = if is-portuguese {
-      "Tabela " + str(number)
-    } else {
-      "Table " + str(number)
-    }
+    let caption-reference = labels.table-caption + " " + str(number)
+    let inline-reference = labels.table-reference + " " + str(number)
+
+    v(1em)
 
     block(width: 100%, breakable: false)[
       #set par(
         first-line-indent: 0pt,
         justify: false,
-        leading: 0.5em,
+        leading: 0.6em,
       )
 
       #set text(size: 10pt)
@@ -197,10 +233,10 @@
 
       #vortex-table-counter.step()
       #align(center)[
-        #reference – #caption
+        #caption-reference – #caption
       ]
 
-      #v(0em)
+      #v(0.5em)
 
       #align(center)[
         #box(width: width)[
@@ -212,12 +248,14 @@
         ]
       ]
 
-      #v(0em)
+      #v(0.5em)
 
       #align(center)[
-        #source-name: #source
+        #labels.source: #source
       ]
     ]
+
+    v(1em)
   }
 }
 
@@ -245,8 +283,41 @@
   palavras-chave: [],
   abstract: [],
   keywords: [],
+  resumen: [],
+  palabras-clave: [],
   body,
 ) = {
+  let has-portuguese-abstract = vortex-has-content(resumo)
+  let has-english-abstract = vortex-has-content(abstract)
+  let has-spanish-abstract = vortex-has-content(resumen)
+  let abstract-count = (
+    (
+      if has-portuguese-abstract { 1 } else { 0 }
+    )
+      + (
+        if has-english-abstract { 1 } else { 0 }
+      )
+      + (
+        if has-spanish-abstract { 1 } else { 0 }
+      )
+  )
+
+  if abstract-count > 2 {
+    panic(
+      "Vortex template error: provide at most two abstracts. Use English only, Portuguese + English, or Spanish + English.",
+    )
+  }
+  if not has-english-abstract {
+    panic(
+      "Vortex template error: an English abstract is required. Portuguese-only or Spanish-only abstracts are not accepted.",
+    )
+  }
+  if has-portuguese-abstract and has-spanish-abstract {
+    panic(
+      "Vortex template error: choose either Portuguese + English or Spanish + English, not Portuguese + Spanish together.",
+    )
+  }
+
   set page(paper: "a4", margin: (
     top: 2cm,
     bottom: 2cm,
@@ -289,8 +360,9 @@
   set par(
     justify: true,
     leading: 0.75em,
+    spacing: 0cm,
     first-line-indent: (
-      amount: 2em,
+      amount: 1cm,
       all: true,
     ),
   )
@@ -384,19 +456,19 @@
     #article-type
   ]
 
-  v(0em)
+  v(0.6em)
 
   text(size: 18pt)[
     #set par(first-line-indent: 0pt)
     *#title*
   ]
 
-  v(1em)
+  v(2em)
 
   for author in authors {
     par(first-line-indent: 0pt)[
       #author.name
-      #h(0.3em)
+      #h(0.5em)
       #if "orcid" in author {
         link("https://orcid.org/" + author.orcid)[
           #box(
@@ -415,7 +487,21 @@
     v(1em)
   }
 
-  columns(2, gutter: 8mm)[
+  let english-abstract-block = [
+    #set text(size: 10pt)
+    #set par(
+      justify: true,
+      first-line-indent: 0pt,
+    )
+    *Abstract:* #abstract
+    \
+    \
+    *Keywords:* #keywords
+  ]
+
+  v(1.5em)
+
+  let portuguese-abstract-block = [
     #set text(size: 10pt)
     #set par(
       justify: true,
@@ -425,13 +511,38 @@
     \
     \
     *Palavras-chave:* #palavras-chave
-
-    #colbreak()
-    *Abstract:* #abstract
-    \
-    \
-    *Keywords:* #keywords
   ]
+
+  let spanish-abstract-block = [
+    #set text(size: 10pt)
+    #set par(
+      justify: true,
+      first-line-indent: 0pt,
+    )
+    *Resumen:* #resumen
+    \
+    \
+    *Palabras clave:* #palabras-clave
+  ]
+
+  if abstract-count == 1 {
+    align(center)[
+      #block(width: 65%)[
+        #english-abstract-block
+      ]
+    ]
+  } else {
+    columns(2, gutter: 8mm)[
+      #if has-portuguese-abstract {
+        portuguese-abstract-block
+      } else {
+        spanish-abstract-block
+      }
+
+      #colbreak()
+      #english-abstract-block
+    ]
+  }
 
   pagebreak()
 
