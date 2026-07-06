@@ -114,9 +114,9 @@ For tables we use the `#vortex-table` command.
   table(
     columns: 5,
     [], [Coluna 1], [Coluna 2], [Coluna 3], [Coluna 4],
-    [Linha 1], [abc], [def], [abc], [def],
-    [Linha 2], [bca], [efd], [bca], [efd],
-    [Linha 3], [cba], [fed], [cba], [fed],
+    [_Linha 1_], [abc], [def], [abc], [def],
+    [_Linha 2_], [bca], [efd], [bca], [efd],
+    [_Linha 3_], [cba], [fed], [cba], [fed],
   ),
   caption: lorem(20),
   source: [Author (2015, p. 450)],

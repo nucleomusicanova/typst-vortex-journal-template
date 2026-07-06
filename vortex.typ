@@ -153,19 +153,21 @@
       #set par(
         first-line-indent: 0pt,
         justify: false,
-        leading: 1em,
+        leading: 0.5em,
       )
+
+      #set text(size: 10pt)
 
       #let table-body = if body.func() == table {
         let strong-rule = 1.2pt + black
-        let light-rule = 0.4pt + rgb("#c8c8c8")
+        let light-rule = 0.4pt + rgb("#ffffff")
         let fields = body.fields()
         let children = fields.remove("children")
         let columns = fields.at("columns")
         if columns.all(column => column == auto) {
           fields.insert("columns", columns.map(column => 1fr))
         }
-        children.push(table.hline(stroke: strong-rule))
+        children.push(table.hline(stroke: .5pt + black))
 
         [
           #set table(
@@ -178,15 +180,6 @@
               bottom: if y == 0 { strong-rule } else { light-rule },
             ),
           )
-          #show table.cell: it => {
-            if it.y == 0 {
-              strong(it)
-            } else if it.x == 0 {
-              emph(it)
-            } else {
-              it
-            }
-          }
           #table(..fields, ..children)
         ]
       } else {
