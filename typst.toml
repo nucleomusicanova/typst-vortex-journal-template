@@ -1,0 +1,15 @@
+[package]
+name = "vortex"
+version = "0.1.0"
+entrypoint = "lib.typ"
+authors = ["Charles K. Neimog"]
+license = "MIT"
+description = "Official Typst template for Revista Vórtex."
+homepage = "https://vortex.unespar.edu.br/"
+repository = "https://github.com/nucleomusicanova/typst-vortex"
+keywords = ["journal", "academic", "article", "abnt", "music"]
+
+[template]
+path = "examples"
+entrypoint = "article.typ"
+thumbnail = "thumbnail.png"
