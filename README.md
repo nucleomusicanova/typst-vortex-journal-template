@@ -211,6 +211,12 @@ Planned:
 
 ---
 
+## How to Compile Example?
+
+```
+typst compile examples/article.typ --root .
+```
+
 ## License
 
 This project is distributed under the MIT License.
