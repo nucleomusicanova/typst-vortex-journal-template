@@ -8,7 +8,7 @@
 //╭─────────────────────────────────────╮
 //│   Creation of new vortex article    │
 //╰─────────────────────────────────────╯
-#show: doc => vortex(
+#show: vortex.with(
   // Editor fields (do not CHANGE)
   vortex-number: 1,
   article-first-page-number: 1,
@@ -64,9 +64,6 @@
     Pure Data,
     Bach Library.
   ],
-
-  // do not remove this
-  doc,
 )
 
 //╭─────────────────────────────────────╮

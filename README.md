@@ -23,15 +23,28 @@ This project reproduces the journal's official layout and formatting requirement
 
 ---
 
-## Installation
+## Use as a Typst Template
 
-Clone this repository:
+This package is configured as a Typst template through `typst.toml`:
 
-```bash
-git clone https://github.com/<user>/vortex.git
+```toml
+[template]
+path = "examples"
+entrypoint = "article.typ"
+thumbnail = "thumbnail.png"
 ```
 
-or install it as a local Typst package.
+After publication, create a new article with:
+
+```bash
+typst init @preview/vortex:0.1.0 my-article
+```
+
+For local development, compile the bundled starter document from the repository root:
+
+```bash
+typst compile examples/article.typ --root .
+```
 
 ---
 
@@ -60,9 +73,11 @@ typst watch main.typ main.pdf \
 ## Basic Usage
 
 ```typst
-#import "vortex.typ": *
+#import "vortex.typ": (
+  vortex, vortex-bibliography, vortex-cite-text, vortex-dropcap, vortex-image, vortex-long-citation, vortex-table,
+)
 
-#show: doc => vortex(
+#show: vortex.with(
   title: [My Article],
   blind-review: true,
   authors: (
@@ -73,11 +88,19 @@ typst watch main.typ main.pdf \
       email: "john@example.com",
     ),
   ),
+  abstract: [This is the required English abstract.],
+  keywords: [Music, Analysis, Typst.],
 )
 
 = Introduction
 
 Your article starts here.
+```
+
+When the package is published in Typst Universe, replace the local import with:
+
+```typst
+#import "@preview/vortex:0.1.0": *
 ```
 
 ---
@@ -110,9 +133,10 @@ or
 ## Figures
 
 ```typst
-#figure(
-  image("figure.png"),
-  caption: [Figure 1 – Caption. Source: Author.]
+#vortex-image(
+  "figure.png",
+  caption: [Caption.],
+  source: [Author.]
 )
 ```
 
@@ -202,11 +226,11 @@ Planned:
 
 ```
 .
+├── assets/
 ├── examples/
-├── fonts/
-├── images/
+├── thumbnail.png
+├── typst.toml
 ├── vortex.typ
-├── abnt.csl
 └── README.md
 ```
 
